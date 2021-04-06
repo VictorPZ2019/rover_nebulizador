@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot name="arm" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!--Include-->
+    <xacro:include filename="$(find nebulizador_description)/urdf/accessories/value_pi.xacro"/>
+    <!---xacro:include filename="$(find nebulizador_description)/urdf/materials/materials.xacro"/-->
+    <xacro:include filename="$(find nebulizador_description)/urdf/accessories/arm/body.urdf.xacro"/>
+    <xacro:include filename="$(find nebulizador_description)/urdf/accessories/arm/body.gazebo.xacro"/>
+    <xacro:include filename="$(find nebulizador_description)/urdf/accessories/arm/body.transmission.xacro"/>
+
+    <!--Radius Limits-->
+    <xacro:property name="J1_upper_limit" value="${90*M_PI/180.0}"/>
+    <xacro:property name="J1_lower_limit" value="-${J1_upper_limit}"/> 
+
+    <xacro:property name="J2_upper_limit" value="${45*M_PI/180.0}"/>
+    <xacro:property name="J2_lower_limit" value="-${J2_upper_limit}"/>
+
+    <!--Velocity Limits-->
+    <xacro:property name="J1_velocity_limit" value="${300.0*M_PI/180.0}"/>
+    <xacro:property name="J2_velocity_limit" value="${300.0*M_PI/180.0}"/>
+
+    <!--Link-->
+    <!--link name="world"/-->
+    <xacro:link_v1 name="box_nebulizador_base" mass="0.385"
+				 ixx="0.012388" ixy="4.9304E-06" ixz="-0.00013633"
+				 iyy="0.015605" iyz="-1.7128E-05"
+				 izz="0.013469"/>
+
+    <xacro:link_v1 name="link_1" mass="0.385"
+				 ixx="0.022235" ixy="-6.2582E-05" ixz="-0.0017584"
+				 iyy="0.015421" iyz="-0.0002643"
+				 izz="0.015075"/>
+
+    <xacro:link_v1 name="link_2" mass="0.348"
+				 ixx="0.03751" ixy="6.5336E-05" ixz="0.00056744"
+				 iyy="0.030168" iyz="-0.00040066"
+				 izz="0.014053"/>
+    <!-- Joint -->
+    <joint name="box_nebulizador_to_base" type="fixed">
+        <parent link="box_nebulizador"/>
+        <child link="box_nebulizador_base"/>
+        <origin xyz="0.0 0.0 0.3825" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <xacro:joint_v1 joint_name="J1"
+                  parent_name="box_nebulizador_base" child_name="link_1"
+                  ox="0" oy="0" oz="0.017"
+                  roll="0" pitch="0" yaw="-1.5708"
+                  ax="0" ay="0" az="1"
+                  el="30.0"
+                  ll="${J1_lower_limit}" ul="${J1_upper_limit}"
+                  vl="${J1_velocity_limit}"
+                  skp="1" skv="1"
+                  sll="${J1_lower_limit}" sul="${J1_upper_limit}"/>
+
+    <xacro:joint_v1 joint_name="J2"
+                  parent_name="link_1" child_name="link_2"
+                  ox="0.026" oy="0.190" oz="0.06964"
+                  roll="0" pitch="0" yaw="0"
+                  ax="1" ay="0" az="0"
+                  el="30.0"
+                  ll="${J2_lower_limit}" ul="${J2_upper_limit}"
+                  vl="${J2_velocity_limit}"
+                  skp="1" skv="1"
+                  sll="${J2_lower_limit}" sul="${J2_upper_limit}"/>
+
+    <!-- transmission -->
+    <xacro:simple_jp_trans_v0 name="transmission_1"
+  							joint_name="J1" actuator_name="motor_1"
+  							reduction="1"/>
+    <xacro:simple_jp_trans_v0 name="transmission_2"
+  							joint_name="J2" actuator_name="motor_2"
+  							reduction="1"/>
+    <!-- gazebo -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/arm</robotNamespace>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+    <xacro:gazebo_link_v1 name="box_nebulizador_base"/>
+    <xacro:gazebo_link_v1 name="link_1"/>
+    <xacro:gazebo_link_v1 name="link_2"/>
+</robot>
