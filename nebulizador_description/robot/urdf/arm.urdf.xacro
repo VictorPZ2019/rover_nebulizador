@@ -38,12 +38,12 @@
     <joint name="box_nebulizador_to_base" type="fixed">
         <parent link="box_nebulizador"/>
         <child link="box_nebulizador_base"/>
-        <origin xyz="0.0 0.0 0.3825" rpy="0.0 0.0 0.0" />
+        <origin xyz="0.0 0.0 0.3825" rpy="0.0 0.0 3.14159" />
     </joint>
 
     <xacro:joint_v1 joint_name="J1"
                   parent_name="box_nebulizador_base" child_name="link_1"
-                  ox="0" oy="0" oz="0.017"
+                  ox="-0.16" oy="0" oz="0.017"
                   roll="0" pitch="0" yaw="-1.5708"
                   ax="0" ay="0" az="1"
                   el="30.0"

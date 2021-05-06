@@ -1,6 +1,6 @@
 <launch>
   <!--arg name="config" default="4WD_Rover_with_SLAM_Pack" /-->
-  <arg name="model" default="$(find nebulizador_description)/urdf/4WD_rover.urdf.xacro"/>
+  <arg name="model" default="$(find nebulizador_description)/urdf/2WD_rover.urdf.xacro"/>
 
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="world_name" default="worlds/empty.world"/>
@@ -11,7 +11,6 @@
   <arg name="debug" default="false"/>
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
-  <!--include file="$(find gazebo_ros)/launch/empty_world.launch"-->
   <include file="$(find aws_robomaker_small_house_world)/launch/small_house.launch">
     <!--arg name="world_name" value="$(arg world_name)"/>
     <arg name="debug" value="$(arg debug)" /-->
@@ -22,11 +21,11 @@
   </include>
 
   <!-- Load the URDF into the ROS Parameter Server -->
- <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-    args="-urdf -model 4WD_rover -param robot_description"/>
+    args="-urdf -model 2WD_rover -param robot_description"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 </launch>

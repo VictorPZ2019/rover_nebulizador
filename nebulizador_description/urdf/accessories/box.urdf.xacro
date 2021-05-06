@@ -3,16 +3,16 @@
     <link name="box_nebulizador">
         <visual>
             <geometry>
-                <box size="0.515487 0.233457 0.765"/>
+                <box size="0.515487 0.233457 0.78"/>
                 <!--mesh filename="package://nebulizador_description/meshes/arm/visual/base_link.stl" scale="0.001 0.001 0.001"/-->
             </geometry>
-            <material name="white"/>
+            <material name="black"/>
         </visual>
     </link>
 
     <joint name="box_nebulizador" type="fixed">
         <parent link="mount_point_link"/>
         <child link="box_nebulizador"/>
-        <origin xyz="0.0 0.0 0.06"/>   
+        <origin xyz="0.0 0.0 0.0"/>   
     </joint>
 </robot>
