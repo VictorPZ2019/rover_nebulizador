@@ -13,8 +13,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>nebulizador_description</exec_depend>
-  <exec_depend>aws-robomaker-small-house-world</exec_depend>
-  <exec_depend>realsense_ros_gazebo</exec_depend>
+  <!--exec_depend>aws-robomaker-small-house-world</exec_depend-->
+  <!--exec_depend>realsense_ros_gazebo</exec_depend-->
   <exec_depend>nebulizador_navigation</exec_depend>
   <exec_depend>nebulizador_gazebo</exec_depend>
 
